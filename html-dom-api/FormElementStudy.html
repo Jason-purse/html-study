@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学习表单dom元素的知识点</title>
+</head>
+<body>
+
+<div>
+    <h1>使用注意事项</h1>
+    <h2>获取一个表单元素</h2>
+    <p>
+        你能够通过Css选择器 - 通过querySelector方法进行抓取,或者通过在当前文档中的forms属性获取到所有的表单列表 ..
+        <br>
+        此属性返回一个HTMLFormElement对象的数组 - 列出在当前页面的所有表单 ...
+        你能够使用以下的语法去获取单独的一个表单
+    <dl>
+        1.document.forms[index]
+        <dd>返回数组中指定的某一项</dd>
+    </dl>
+    <dl>
+        document.forms[id]
+        <dd>
+            返回ID是 id的表单
+        </dd>
+    </dl>
+    <dl>
+        3.document.forms[name]
+        <dd>
+            返回表单name attribute的值为 name的表单 ..
+        </dd>
+    </dl>
+    </p>
+    <h2>访问表单的元素</h2>
+    <p>
+        通过检查表单的elements属性来获取表单的包含数据的元素列表, 这将返回一个HTMLFormControlsCollection 它列出了表单的用户数据项的元素列表 ..
+        这些都是`form`的后代，以及那些使用表单属性成为表单成员的成员。
+        你能够通过使用它们的name属性作为form的key来获取表单元素,通过使用elements是最棒的方式.. 它仅仅包含了表单的元素,它不会与表单的其他属性混合 ..
+    </p>
+</div>
+
+<hr>
+
+<form id="user-input" name="user-input" action="">
+
+</form>
+
+<label id="elementCount" for="elementCountInput">
+    <input id="elementCountInput" type="text" form="user-input" name="elementCountInput" value="你好" />
+</label>
+
+<hr>
+<div>
+    <h1>展示表单的元素信息</h1>
+    <div id="form-elements-content">
+
+    </div>
+</div>
+
+<button onclick="acquireFormElements()">点击这个按钮获取表单的元素</button>
+
+<script>
+
+
+    function acquireFormElements() {
+        let form = document.forms['user-input'];
+        let querySelector = document.querySelector("#form-elements-content");
+        let elements = []
+        form.elements[0].nodeValue = 'input'
+
+        for (let ele of form.elements) {
+            elements.push(`
+<li>
+节点名称: ${ele.nodeName},节点类型: ${ele.nodeType},节点昵称: ${ele.name},节点id: ${ele.id},
+节点的值: ${ele.nodeValue},节点文本: ${ele.value}
+</li>`);
+        }
+        querySelector.innerHTML = `
+                组件数量存在 ${form.elements.length}
+                <ul>
+                   ${elements.reduce((pre, cur) => pre + cur, '')}
+                </ul>
+            `
+    }
+</script>
+</body>
+</html>

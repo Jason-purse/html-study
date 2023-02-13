@@ -1,10 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>虚拟滚动</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-$END$
+
+<div>
+    <form id="inputForm">
+        <div>
+            请输入视图中存在的元素个数: <input type="number" name="view-elements" value="3">
+        </div>
+        <div>
+            请输入视图中所有元素个数: <input type="number" name="view-all-elements" value="10">
+        </div>
+        <div>
+            请输入视图中每个元素的高度: <input type="number" name="view-per-element-height" value="50">
+        </div>
+    </form>
+
+    <div>
+        <button onclick="generateDomComponent()">点击生成组件</button>
+    </div>
+    <br>
+
+    <div id="virtual-view-container">
+
+    </div>
+
+    <script>
+        function generateDomComponent() {
+            let elements = document.querySelector("#inputForm").elements;
+            let viewElementsLength = elements['view-elements'].value;
+            let viewAllElementsLength = elements['view-all-elements'].value;
+            let viewPerElementHeight = elements['view-per-element-height'].value;
+
+            if (!viewElementsLength || !viewAllElementsLength || !viewPerElementHeight) {
+                alert("请输入需要生成虚拟滚动的基准数据 !!!")
+                return;
+            }
+
+            let elementsDom = []
+
+            for (let i = 0; i < viewAllElementsLength; i++) {
+                elementsDom.push(`
+                    <li style="height: ${viewPerElementHeight}px;line-height: ${viewPerElementHeight}px">${i}</li>
+                `)
+            }
+            document.querySelector("#virtual-view-container")
+                .innerHTML = `
+                <div style="height: ${viewPerElementHeight * viewElementsLength}px; width: 100%;background-color: beige;overflow-y: auto">
+                    ${elementsDom.join("\n")}
+                </div>
+            `
+
+        }
+
+    </script>
+
+
+</div>
 </body>
 </html>
